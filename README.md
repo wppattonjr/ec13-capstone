@@ -27,7 +27,8 @@ This journaling app will be geared to people who want to journal to loved ones a
 [Loom Video - Project Overview](https://www.loom.com/share/546ecdf162a04af78754dc68b8612598)
   
 ## ERD
-<div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe allowfullscreen frameborder="0" style="width:640px; height:480px" src="https://lucid.app/documents/embeddedchart/1567f8b7-9477-4951-b8da-189080e1ce57" id="YsJSPJN4i.a0"></iframe></div>
+![image](https://user-images.githubusercontent.com/63669713/100552794-f984cd00-324e-11eb-8558-619d147952be.png)
+
 # Technology Used
 
 - HTML

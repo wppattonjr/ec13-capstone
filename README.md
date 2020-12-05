@@ -27,7 +27,7 @@ This journaling app will be geared to people who want to journal to loved ones a
 [Loom Video - Project Overview](https://www.loom.com/share/546ecdf162a04af78754dc68b8612598)
   
 ## ERD
-![image](https://user-images.githubusercontent.com/63669713/100552794-f984cd00-324e-11eb-8558-619d147952be.png)
+
 
 # Technology Used
 

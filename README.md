@@ -28,6 +28,7 @@ This journaling app will be geared to people who want to journal to loved ones a
   
 ## ERD
 
+
 # Technology Used
 
 - HTML

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import googleImage from './btn_google_signin_dark.png';
+import GoogleButton from 'react-google-button';
+import JournalImage from './small_journal.png';
 
 export default class Auth extends Component {
   loginClickEvent = (e) => {
@@ -13,9 +14,9 @@ export default class Auth extends Component {
   render() {
     return (
       <div className='Auth'>
-        <button className='btn btn-secondary' onClick={this.loginClickEvent}>
-          <img src={googleImage} alt='Google Sign In Button' />
-        </button>
+        <img src={JournalImage} alt='journal icon'/>
+        <h3>I Need to Write</h3>
+        <GoogleButton onClick={this.loginClickEvent} />
       </div>
     );
   }

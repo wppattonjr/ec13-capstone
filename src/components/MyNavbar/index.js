@@ -14,7 +14,7 @@ export default class MyNavbar extends Component {
     return (
         <div className="MyNavbar">
           <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-            <Link className="navbar-brand" to='/'>I Need to Write</Link>
+            <Link className="navbar-brand" to='/journals'>I Need to Write</Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
             </button>
@@ -24,7 +24,7 @@ export default class MyNavbar extends Component {
                   <Link to='/journals' className="nav-link" href="#">Journals</Link>
                 </li>
                 <li className="nav-item">
-                  <Link to='/journal-entries' className="nav-link" href="#">Journal Entries</Link>
+                  <Link to='/single-entry' className="nav-link" href="#">Create Entry</Link>
                 </li>
               </ul>
               <div className="form-inline my-2 my-lg-0">

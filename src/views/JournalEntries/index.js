@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-export default class Entries extends Component {
+export default class JournalEntries extends Component {
   render() {
     return (
-      <div>
-        <h1>Journal Entries</h1>
+      <div className='d-flex justify-content-center m5'>
+        <h1> All Entries</h1>
       </div>
     );
   }

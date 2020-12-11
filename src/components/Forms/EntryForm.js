@@ -33,33 +33,54 @@ export default class EntryForm extends Component {
     e.preventDefault();
 
     if (this.state.entryId === '') {
-      const newEntry = {
-        entryId: this.state.entryId,
-        entry: this.state.entry,
-        userId: this.state.userId,
-        journalId: this.state.journal,
-      };
-      entryData
-        .createEntry(newEntry)
+      entryData.createEntry(this.state)
         .then((response) => {
-          const entryInJournal = {
+          const entryInJournalObj = {
+            journalId: this.props.journal.journalId,
             entryId: response.data.entryId,
-            journalId: this.state.journal,
             userId: this.state.userId,
           };
-          journalData.createJournalEntry(entryInJournal);
-        })
-        .then(() => {
-          this.props.onUpdate();
+          entryData.createJournalEntry(entryInJournalObj).then(() => this.props.onUpdate(this.props.journal.journalId));
         });
     } else {
-      entryData.updateEntry(this.state).then(() => {
-        this.props.onUpdate();
-      },
-      journalData.createJournalEntry(this.props.entryId),
-      this.props.onUpdate(this.props.entry.entryId));
+      entryData.updateEntry(this.state)
+        .then(() => {
+          this.props.journal ? this.props.onUpdate(this.props.journal.journalId) : this.props.onUpdate();
+        });
     }
-  };
+  }
+
+  // handleSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   if (this.state.entryId === '') {
+  //     const newEntry = {
+  //       entryId: this.state.entryId,
+  //       entry: this.state.entry,
+  //       userId: this.state.userId,
+  //       journalId: this.state.journal,
+  //     };
+  //     entryData
+  //       .createEntry(newEntry)
+  //       .then((response) => {
+  //         const entryInJournal = {
+  //           entryId: response.data.entryId,
+  //           journalId: this.state.journal,
+  //           userId: this.state.userId,
+  //         };
+  //         journalData.createJournalEntry(entryInJournal);
+  //       })
+  //       .then(() => {
+  //         this.props.onUpdate();
+  //       });
+  //   } else {
+  //     entryData.updateEntry(this.state).then(() => {
+  //       this.props.onUpdate();
+  //     },
+  //     journalData.createJournalEntry(this.props.entryId),
+  //     this.props.onUpdate(this.props.entry.entryId));
+  //   }
+  // };
 
   getJournals = (uid) => journalData.getAllUserJournals(uid).then((response) => response);
 

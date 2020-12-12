@@ -5,30 +5,27 @@ import AppModal from '../AppModal';
 
 class EntryTable extends Component {
   render() {
-    const { entry, removeEntry, onUpdate } = this.props;
+    const
+      {
+        entry,
+        removeEntry,
+        onUpdate,
+      } = this.props;
     return (
-        <Table key={entry.entryId} striped>
-            <thead>
-              <tr>
-                <th>Last Updated</th>
-                <th>Journal Entry</th>
-                <th>View/Edit</th>
-              </tr>
-            </thead>
+        <Table>
             <tbody>
-              <tr>
-                <td>{entry.entryTime}</td>
+              <tr key={entry.entryId}>
+                <td>{entry.modified}</td>
                 <td>{entry.entry}</td>
-                <td>
-                  <button id={entry.entryId} onClick={(e) => removeEntry(e)}>Delete Entry</button>
-                </td>
+                <tr> <button id={entry.entryId} onClick={(e) => removeEntry(e)}>Delete Entry</button>
+                </tr>
               </tr>
               <tr>
-                <td>
+                <tr>
                   <AppModal title={'Update Entry'} buttonLabel={'Update Entry'}>
                   { Object.keys(entry).length && <EntryForm entry={entry} onUpdate={onUpdate} />}
                   </AppModal>
-                </td>
+                </tr>
               </tr>
             </tbody>
         </Table>

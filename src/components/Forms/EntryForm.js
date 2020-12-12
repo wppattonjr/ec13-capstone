@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import moment from 'moment';
 import getUser from '../../helpers/data/authData';
 import entryData from '../../helpers/data/entryData';
 import journalData from '../../helpers/data/journalData';
@@ -9,6 +10,7 @@ export default class EntryForm extends Component {
     entryId: this.props.entry?.entryId || '',
     entry: this.props.entry?.entry || '',
     userId: this.props.entry?.userId || '',
+    modified: '',
     journals: [],
   };
 
@@ -54,14 +56,15 @@ export default class EntryForm extends Component {
         entryId: this.state.entryId,
         entry: this.state.entry,
         userId: this.state.userId,
-        journalId: this.state.journal,
+        journalId: this.state.journalId,
+        modified: moment().format('MMMM Do YYYY, h:mm a'),
       };
       entryData
         .createEntry(newEntry)
         .then((response) => {
           const entryInJournal = {
             entryId: response.data.entryId,
-            journalId: this.state.journal,
+            journalId: this.state.journalId,
             userId: this.state.userId,
           };
           journalData.createJournalEntry(entryInJournal);
@@ -74,11 +77,17 @@ export default class EntryForm extends Component {
         this.props.onUpdate();
       },
       journalData.createJournalEntry(this.props.entryId),
-      this.props.onUpdate(this.props.entry.entryId));
+      this.props.onUpdate());
     }
   };
 
   getJournals = (uid) => journalData.getAllUserJournals(uid).then((response) => response);
+
+  // componentDidUpdate(prevState) {
+  //   if (prevState.entry !== this.props.entry || prevState.journal !== this.props.journalId) {
+  //     this.getJournalEntries();
+  //   }
+  // }
 
   render() {
     const { entry, journals, entryJournal } = this.state;
@@ -106,7 +115,7 @@ export default class EntryForm extends Component {
         />
         <select
           className='form-control form-control-lg m-1'
-          name='journal'
+          name='journalId'
           ref={this.entryRef}
           value={entryJournal}
           onChange={this.handleChange}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Table } from 'reactstrap';
 import entryData from '../../helpers/data/entryData';
 import journalData from '../../helpers/data/journalData';
 import EntryTable from '../../components/Tables/entryTable';
@@ -58,14 +59,22 @@ export default class SingleJournal extends React.Component {
 
     return (
       <>
-        <AppModal title={'Add/Update Entry'} buttonLabel={'Add/Update Entry'}>
+        <AppModal clasName='create-entry-button' title={'Create Entry'} buttonLabel={'Create Entry'}>
           <EntryForm key={journal.journalId} onUpdate={this.getEntries} entry={this.state.entries}/>
         </AppModal>
         <div>
-          <h1 className='d-flex justify-content-center'>{journal.journalName}</h1>
-            {renderEntries()}
-          </div>
-        </>
+          <h1 className='table-title'>{journal.journalName}</h1>
+        </div>
+      <div className='table-of-journal-entries'>
+        <Table bordered striped hover>
+          <tbody>
+            <tr>
+              <td>{renderEntries()}</td>
+            </tr>
+          </tbody>
+        </Table>
+      </div>
+      </>
     );
   }
 }

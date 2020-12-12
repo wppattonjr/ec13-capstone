@@ -73,7 +73,14 @@ export default class EntryForm extends Component {
           this.props.onUpdate();
         });
     } else {
-      entryData.updateEntry(this.state).then(() => {
+      const thisJournalEntry = {
+        entryId: this.state.entryId,
+        entry: this.state.entry,
+        userId: this.state.userId,
+        journalId: this.state.journalId,
+        modified: moment().format('MMMM Do YYYY, h:mm a'),
+      };
+      entryData.updateEntry(thisJournalEntry).then(() => {
         this.props.onUpdate();
       },
       journalData.createJournalEntry(this.props.entryId),

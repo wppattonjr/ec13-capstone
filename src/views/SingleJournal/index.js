@@ -37,6 +37,7 @@ export default class SingleJournal extends React.Component {
   });
 
   removeEntry = (e) => {
+    console.warn(e);
     const removedEntry = this.state.entries.filter((entry) => entry.entryId
     !== e.target.id);
     this.setState({
@@ -53,7 +54,7 @@ export default class SingleJournal extends React.Component {
     const { entries, journal } = this.state;
     const renderEntries = () => (
       entries.map((entry) => (
-        <EntryTable key={entry.entryId} entry={entry} removeEntry={this.removeEntry} onUpdate={this.removeEntry}/>
+        <EntryTable key={entry.entryId} entry={entry} removeEntry={this.removeEntry} />
       ))
     );
 

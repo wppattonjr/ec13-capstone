@@ -17,17 +17,12 @@ class EntryTable extends Component {
               <tr key={entry.entryId}>
                 <td>{entry.modified}</td>
                 <td>{entry.entry}</td>
-                <tr> <button id={entry.entryId} onClick={(e) => removeEntry(e)}>Delete Entry</button>
-                </tr>
-              </tr>
-              <tr>
-                <tr>
-                  <AppModal title={'Update Entry'} buttonLabel={'Update Entry'}>
-                  { Object.keys(entry).length && <EntryForm entry={entry} onUpdate={onUpdate} />}
-                  </AppModal>
-                </tr>
               </tr>
             </tbody>
+              <AppModal title={'Update Entry'} buttonLabel={'Update Entry'}>
+              { Object.keys(entry).length && <EntryForm entry={entry} onUpdate={onUpdate} />}
+              </AppModal>
+              <button id={entry.entryId} onClick={(e) => removeEntry(e)}>Delete Entry</button>
         </Table>
     );
   }

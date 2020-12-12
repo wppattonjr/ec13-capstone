@@ -26,7 +26,7 @@ const createEntry = (entryObj) => new Promise((resolve, reject) => {
 const updateEntry = (entryObj) => new Promise((resolve, reject) => {
   axios.patch(`${baseUrl}/entries/${entryObj.entryId}.json`, entryObj).then((response) => {
     console.warn(response);
-    resolve(response.data);
+    resolve(response);
   }).catch((error) => reject(error));
 });
 

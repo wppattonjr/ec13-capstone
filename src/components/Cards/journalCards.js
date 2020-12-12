@@ -3,7 +3,7 @@ import {
   Card, CardBody, CardTitle, CardLink,
 } from 'reactstrap';
 import { IoBookSharp } from 'react-icons/io5';
-import { MdDeleteForever, MdUpdate } from 'react-icons/md';
+import { MdDeleteForever } from 'react-icons/md';
 import AppModal from '../AppModal';
 import JournalForm from '../Forms/JournalForm';
 

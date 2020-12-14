@@ -44,17 +44,23 @@ export default class JournalForm extends Component {
       journalData.createJournal(this.state)
         .then(() => {
           this.props.onUpdate();
+          this.setState({ success: true });
         });
     } else {
       journalData.updateJournal(this.state)
         .then(() => {
           this.props.onUpdate(this.props.journal.journalId);
+          this.setState({ success: true });
         });
     }
   }
 
   render() {
+    const { success } = this.state;
     return (
+      <div>
+      { success && (<div className='alert alert-success' role='alert'>Your Journal Has Been Updated!</div>)}
+      <form onSubmit={this.handleSubmit} className='add-entry-form'></form>
       <form onSubmit={this.handleSubmit}>
         <h1>Journal Form</h1>
         <input
@@ -85,6 +91,7 @@ export default class JournalForm extends Component {
         />
         <button type="submit">Submit</button>
       </form>
+    </div>
     );
   }
 }

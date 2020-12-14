@@ -32,15 +32,14 @@ const updateEntry = (entryObj) => new Promise((resolve, reject) => {
 
 const deleteEntry = (entryId) => axios.delete(`${baseUrl}/entries/${entryId}.json`);
 
-const getEntryPrompts = () => new Promise((resolve, reject) => {
+const getAllEntryPrompts = () => new Promise((resolve, reject) => {
   axios.get(`${baseUrl}/prompts.json`).then((response) => {
     resolve(response.data);
   }).catch((error) => reject(error));
 });
 
-const getAnEntryPrompt = (promptId) => new Promise((resolve, reject) => {
+const getSingleEntryPrompt = (promptId) => new Promise((resolve, reject) => {
   axios.get(`${baseUrl}/prompts/${promptId}.json`).then((response) => {
-    console.warn('Look Here', response);
     resolve(response.data);
   }).catch((error) => reject(error));
 });
@@ -78,6 +77,6 @@ export default {
   createJournalEntry,
   deleteJournalEntry,
   updateJournalEntry,
-  getEntryPrompts,
-  getAnEntryPrompt,
+  getAllEntryPrompts,
+  getSingleEntryPrompt,
 };

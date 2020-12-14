@@ -31,12 +31,15 @@ export default class SingleJournal extends React.Component {
         journal: response,
       });
     });
-    this.getEntries(journalId).then((resp) => (
+    this.getEntries(journalId).then((resp) => this.setState({
+      entries: resp,
+    }));
+    entryData.getAllEntryPrompts().then((response) => {
       this.setState({
-        entries: resp,
-      })
-    ));
-  }
+        prompts: response,
+      });
+    });
+  };
 
   getJournalInfo = (journalId) => {
     journalData.getSingleJournal(journalId).then((response) => {
@@ -46,78 +49,100 @@ export default class SingleJournal extends React.Component {
     });
   };
 
-  getEntries = (journalId) => (
-    entryData.getJournalEntries(journalId).then((response) => {
-      const entryArray = [];
-      response.forEach((item) => {
-        entryArray.push(entryData.getAnEntry(item.entryId));
-      });
-      return Promise.all([...entryArray]);
-    })
-  )
+  getEntries = (journalId) => entryData.getJournalEntries(journalId).then((response) => {
+    const entryArray = [];
+    response.forEach((item) => {
+      entryArray.push(entryData.getAnEntry(item.entryId));
+    });
+    return Promise.all([...entryArray]);
+  });
 
   getPrompts = () => {
-    entryData.getEntryPrompts().then((response) => {
+    entryData.getAllEntryPrompts().then((response) => {
       this.setState({
         prompts: response,
       });
     });
-  }
+  };
 
-  randomPrompt = () => {
-    const randomizePrompts = this.state.prompts[
-      Math.floor(Math.random() * this.state.prompts.length)
+  // promptButton = () => {
+  //   const randomPrompt = this.state.prompts[
+  //     Math.floor(Math.random() * this.state.prompts.length)
+  //   ];
+  //   entryData.getAllEntryPrompts(randomPrompt).then((response) => {
+  //     this.setState({
+  //       randomPrompt: response,
+  //     });
+  //     console.warn('Look Here', response);
+  //   });
+  // }
+
+  promptButton = () => {
+    const allPrompts = entryData
+      .getAllEntryPrompts()
+      .then((response) => Object.keys(response.data));
+    const arrlength = allPrompts.length;
+    const randomPrompt = this.state.prompts[
+      Math.floor(Math.random() * arrlength)
     ];
-    entryData.getEntryPrompts(randomizePrompts).then((response) => {
+    entryData.getAllEntryPrompts(allPrompts[randomPrompt]).then((response) => {
       this.setState({
         randomPrompt: response,
       });
-      console.warn('Prompt', response);
+      console.warn('Look Here', response);
     });
-  }
+  };
 
   removeEntry = (e) => {
-    const removedEntry = this.state.entries.filter((entry) => entry.entryId
-    !== e.target.id);
+    const removedEntry = this.state.entries.filter(
+      (entry) => entry.entryId !== e.target.id,
+    );
     this.setState({
       entries: removedEntry,
     });
-    entryData.deleteEntry(e.target.id)
-      .then(() => {
-        this.loadData();
-      });
+    entryData.deleteEntry(e.target.id).then(() => {
+      this.loadData();
+    });
     entryData.deleteJournalEntry(e.target.id);
-  }
+  };
 
   render() {
     const { entries, journal, prompts } = this.state;
-    const renderEntries = () => (
-      entries.map((entry) => (
-        <EntryTable key={entry.entryId} entry={entry} removeEntry={this.removeEntry} onUpdate={this.loadData}/>
-      ))
-    );
+    const renderEntries = () => entries.map((entry) => (
+        <EntryTable
+          key={entry.entryId}
+          entry={entry}
+          removeEntry={this.removeEntry}
+          onUpdate={this.loadData}
+        />
+    ));
 
     return (
       <ModalBody>
-        <AppModal className='create-entry-button' title={'Create Entry'} buttonLabel={'Create Entry'}>
+        <AppModal title={'Create Entry'} buttonLabel={'Create Entry'}>
           <EntryForm journal={journal} onUpdate={this.loadData} />
         </AppModal>
-        <AppModal className='entry-prompts' title={'Prompt'} buttonLabel={'Get Prompt'}>
-          <ModalBody key={prompts.promptId} >
+        <AppModal
+          className='entry-prompts'
+          title={'Prompt'}
+          buttonLabel={'Get Prompt'}
+        >
+          <ModalBody key={prompts.promptId}>
+            <h2>Prompt Goes Here</h2>
           </ModalBody>
         </AppModal>
         <div>
           <h1 className='table-title'>{journal.journalName}</h1>
         </div>
-      <div className='table-of-journal-entries'>
-        <Table bordered>
-          <tbody>
-            <tr>
-              <td>{renderEntries()}</td>
-            </tr>
-          </tbody>
-        </Table>
-      </div>
+        <div className='table-of-journal-entries'>
+          <Table bordered>
+            <tbody>
+              <tr>
+                <td>{renderEntries()}</td>
+              </tr>
+            </tbody>
+          </Table>
+        </div>
       </ModalBody>
     );
   }

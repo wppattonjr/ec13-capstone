@@ -72,6 +72,7 @@ export default class EntryForm extends Component {
         })
         .then(() => {
           this.props.onUpdate(this.state.journalId);
+          this.setState({ success: true });
         });
     } else {
       const thisJournalEntry = {
@@ -83,9 +84,11 @@ export default class EntryForm extends Component {
       };
       entryData.updateEntry(thisJournalEntry).then(() => {
         this.props.onUpdate();
+        this.setState({ success: true });
       },
       entryData.updateJournalEntry(thisJournalEntry),
       this.props.onUpdate());
+      this.setState({ success: true });
     }
   };
 
@@ -98,7 +101,12 @@ export default class EntryForm extends Component {
   }
 
   render() {
-    const { entry, journals, entryJournal } = this.state;
+    const {
+      entry,
+      journals,
+      entryJournal,
+      success,
+    } = this.state;
 
     const populateDropdown = () => journals.map((journal) => (
         <option
@@ -111,6 +119,8 @@ export default class EntryForm extends Component {
     ));
 
     return (
+      <div>
+      { success && (<div className='alert alert-success' role='alert'>Your Journal Entry Has Been Updated!</div>)}
       <form onSubmit={this.handleSubmit} className='add-entry-form'>
         <textarea
           type='text'
@@ -136,6 +146,7 @@ export default class EntryForm extends Component {
           Submit
         </button>
       </form>
+    </div>
     );
   }
 }

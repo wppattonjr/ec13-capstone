@@ -12,7 +12,7 @@ class EntryTable extends Component {
         onUpdate,
       } = this.props;
     return (
-        <Table onUpdate={onUpdate} entry={entry}>
+        <Table entry={entry}>
           <thead>
             <tr>
               <th>Last Modified</th>

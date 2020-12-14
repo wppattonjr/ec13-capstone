@@ -32,6 +32,18 @@ const updateEntry = (entryObj) => new Promise((resolve, reject) => {
 
 const deleteEntry = (entryId) => axios.delete(`${baseUrl}/entries/${entryId}.json`);
 
+const getEntryPrompts = () => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/prompts.json`).then((response) => {
+    resolve(response.data);
+  }).catch((error) => reject(error));
+});
+
+const getAnEntryPrompt = (promptId) => new Promise((resolve, reject) => {
+  axios.get(`${baseUrl}/prompts/${promptId}.json`).then((response) => {
+    console.warn('Look Here', response);
+    resolve(response.data);
+  }).catch((error) => reject(error));
+});
 // Journal Entry Join Tables
 const createJournalEntry = (userId, journalId, entryId) => {
   axios.post(`${baseUrl}/journal-entries.json`, {
@@ -39,6 +51,13 @@ const createJournalEntry = (userId, journalId, entryId) => {
     journalId,
     entryId,
   }).catch((error) => console.warn(error));
+};
+
+const updateJournalEntry = (entryId) => {
+  axios.get(`${baseUrl}/journal-entries.json?orderBy="entryId"&equalTo="${entryId}"`).then((response) => {
+    console.warn('Look Here', response);
+    axios.patch(`${baseUrl}/journal-entries/${response.journalId}.json`);
+  });
 };
 
 const deleteJournalEntry = (entryId) => {
@@ -58,4 +77,7 @@ export default {
   deleteEntry,
   createJournalEntry,
   deleteJournalEntry,
+  updateJournalEntry,
+  getEntryPrompts,
+  getAnEntryPrompt,
 };

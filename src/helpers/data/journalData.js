@@ -35,7 +35,7 @@ const deleteJournal = (journalId) => axios.delete(`${baseUrl}/journals/${journal
 const getSingleJournal = (journalId) => new Promise((resolve, reject) => {
   axios.get(`${baseUrl}/journals/${journalId}.json`).then((response) => {
     resolve(response.data);
-  });
+  }).catch((error) => reject(error));
 });
 
 const createJournalEntry = (object) => new Promise((resolve, reject) => {

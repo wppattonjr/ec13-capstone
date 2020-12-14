@@ -68,26 +68,34 @@ export default class EntryForm extends Component {
             userId: this.state.userId,
           };
           journalData.createJournalEntry(entryInJournal);
+          this.props.onUpdate();
         })
         .then(() => {
-          this.props.onUpdate();
+          this.props.onUpdate(this.state.journalId);
         });
     } else {
-      entryData.updateEntry(this.state).then(() => {
+      const thisJournalEntry = {
+        entryId: this.state.entryId,
+        entry: this.state.entry,
+        userId: this.state.userId,
+        journalId: this.state.journalId,
+        modified: moment().format('MMMM Do YYYY, h:mm a'),
+      };
+      entryData.updateEntry(thisJournalEntry).then(() => {
         this.props.onUpdate();
       },
-      journalData.createJournalEntry(this.props.entryId),
+      entryData.updateJournalEntry(thisJournalEntry),
       this.props.onUpdate());
     }
   };
 
   getJournals = (uid) => journalData.getAllUserJournals(uid).then((response) => response);
 
-  // componentDidUpdate(prevState) {
-  //   if (prevState.entry !== this.props.entry || prevState.journal !== this.props.journalId) {
-  //     this.getJournalEntries();
-  //   }
-  // }
+  componentDidUpdate(prevState) {
+    if (prevState.modified !== this.props.modified) {
+      this.getJournalEntries();
+    }
+  }
 
   render() {
     const { entry, journals, entryJournal } = this.state;

@@ -12,20 +12,27 @@ class EntryTable extends Component {
         onUpdate,
       } = this.props;
     return (
-        <Table>
-            <tbody>
+        <Table onUpdate={onUpdate} entry={entry}>
+          <thead>
+            <tr>
+              <th>Last Modified</th>
+              <th>Journal Entry</th>
+              <th>Update</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+            <tbody >
               <tr key={entry.entryId}>
                 <td>{entry.modified}</td>
                 <td>{entry.entry}</td>
-                <tr> <button id={entry.entryId} onClick={(e) => removeEntry(e)}>Delete Entry</button>
-                </tr>
-              </tr>
-              <tr>
-                <tr>
-                  <AppModal title={'Update Entry'} buttonLabel={'Update Entry'}>
+                <td>
+                  <AppModal className='btn btn-lg' title={'Update Entry'} buttonLabel={'Update Entry'}>
                   { Object.keys(entry).length && <EntryForm entry={entry} onUpdate={onUpdate} />}
                   </AppModal>
-                </tr>
+                </td>
+                <td>
+                  <button className='btn btn-lg btn-danger' id={entry.entryId} onClick={(e) => removeEntry(e)}>Delete Entry</button>
+                </td>
               </tr>
             </tbody>
         </Table>

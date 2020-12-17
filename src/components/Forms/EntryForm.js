@@ -71,7 +71,7 @@ export default class EntryForm extends Component {
           this.props.onUpdate();
         })
         .then(() => {
-          this.props.onUpdate(this.state.journalId);
+          this.props.onUpdate();
           this.setState({ success: true });
         });
     } else {
@@ -94,12 +94,6 @@ export default class EntryForm extends Component {
 
   getJournals = (uid) => journalData.getAllUserJournals(uid).then((response) => response);
 
-  componentDidUpdate(prevState) {
-    if (prevState.modified !== this.props.modified) {
-      this.getJournalEntries();
-    }
-  }
-
   render() {
     const {
       entry,
@@ -120,8 +114,8 @@ export default class EntryForm extends Component {
 
     return (
       <div>
-      { success && (<div className='alert alert-success' role='alert'>Your Journal Entry Has Been Updated!</div>)}
-      <form onSubmit={this.handleSubmit} className='add-entry-form'>
+      { success && (<div className='alert alert-success' role='alert'>Your Journal Entry Has Been Created/Updated!</div>)}
+      <form onSubmit={this.handleSubmit} onChange={this.handleChange} className='add-entry-form'>
         <textarea
           type='text'
           name='entry'

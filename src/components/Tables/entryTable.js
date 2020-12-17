@@ -22,7 +22,7 @@ class EntryTable extends Component {
             </tr>
           </thead>
             <tbody >
-              <tr key={entry.entryId}>
+              <tr>
                 <td>{entry.modified}</td>
                 <td>{entry.entry}</td>
                 <td>

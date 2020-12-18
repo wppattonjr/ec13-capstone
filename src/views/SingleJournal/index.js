@@ -14,35 +14,36 @@ export default class SingleJournal extends React.Component {
   };
 
   componentDidMount() {
-    this.loadData();
-    // const journalId = this.props.match.params.id;
+    // this.loadData();
 
-    // this.getJournalInfo(journalId);
+    const journalId = this.props.match.params.id;
+
+    this.getJournalInfo(journalId);
 
     // this.getPrompts();
 
-    // this.getEntries(journalId).then((resp) => this.setState({ entries: resp }));
+    this.getEntries(journalId).then((resp) => this.setState({ entries: resp }));
   }
 
-  loadData = () => {
-    const journalId = this.props.match.params.id;
-    journalData.getSingleJournal(journalId).then((response) => {
-      this.setState({
-        journal: response,
-      });
-    });
-    this.getEntries(journalId).then((resp) => {
-      this.setState({
-        entries: resp,
-      });
-    });
+  // loadData = () => {
+  //   const journalId = this.props.match.params.id;
+  //   journalData.getSingleJournal(journalId).then((response) => {
+  //     this.setState({
+  //       journal: response,
+  //     });
+  //   });
+  //   this.getEntries(journalId).then((resp) => {
+  //     this.setState({
+  //       entries: resp,
+  //     });
+  //   });
 
-    entryData.getAllEntryPrompts().then((response) => {
-      this.setState({
-        prompts: response,
-      });
-    });
-  };
+  //   entryData.getAllEntryPrompts().then((response) => {
+  //     this.setState({
+  //       prompts: response,
+  //     });
+  //   });
+  // };
 
   getJournalInfo = (journalId) => {
     journalData.getSingleJournal(journalId).then((response) => {
@@ -104,38 +105,36 @@ export default class SingleJournal extends React.Component {
       entries: removedEntry,
     });
     entryData.deleteEntry(e.target.id).then(() => {
-      this.loadData();
+      this.getEntries();
     });
     entryData.deleteJournalEntry(e.target.id);
   };
 
   render() {
     const { entries, journal } = this.state;
-    const renderEntries = () => entries.map((entry) => (
-        <EntryTable
-          key={entries.entryId}
-          entry={entry}
-          removeEntry={this.removeEntry}
-          onUpdate={this.loadData}
-        />
-    ));
+
+    const renderEntries = () => (
+      entries.map((entry) => (
+        <EntryTable key={entry.entryId} entry={entry} removeEntry={this.removeEntry} />
+      ))
+    );
 
     return (
       <ModalBody>
         <AppModal title={'Create Entry'} buttonLabel={'Create Entry'}>
-          <EntryForm journal={journal} onUpdate={this.loadData} />
+          <EntryForm journal={journal} onUpdate={this.getJournalInfo} />
         </AppModal>
         <AppModal
           className='entry-prompts'
           title={'Prompt'}
           buttonLabel={'Get Prompt'}
         >
-          <ModalBody >
+          <ModalBody>
             <h2>Prompt Goes Here</h2>
           </ModalBody>
         </AppModal>
         <div>
-          <h1 className='table-title'>{journal.journalName}</h1>
+          <h1>{entries.journalName}</h1>
         </div>
         <div className='table-of-journal-entries'>
           <Table bordered>

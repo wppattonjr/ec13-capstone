@@ -14,32 +14,36 @@ export default class SingleJournal extends React.Component {
   };
 
   componentDidMount() {
-    this.loadData();
-    // const journalId = this.props.match.params.id;
+    // this.loadData();
 
-    // this.getJournalInfo(journalId);
+    const journalId = this.props.match.params.id;
+
+    this.getJournalInfo(journalId);
 
     // this.getPrompts();
 
-    // this.getEntries(journalId).then((resp) => this.setState({ entries: resp }));
+    this.getEntries(journalId).then((resp) => this.setState({ entries: resp }));
   }
 
-  loadData = () => {
-    const journalId = this.props.match.params.id;
-    journalData.getSingleJournal(journalId).then((response) => {
-      this.setState({
-        journal: response,
-      });
-    });
-    this.getEntries(journalId).then((resp) => this.setState({
-      entries: resp,
-    }));
-    entryData.getAllEntryPrompts().then((response) => {
-      this.setState({
-        prompts: response,
-      });
-    });
-  };
+  // loadData = () => {
+  //   const journalId = this.props.match.params.id;
+  //   journalData.getSingleJournal(journalId).then((response) => {
+  //     this.setState({
+  //       journal: response,
+  //     });
+  //   });
+  //   this.getEntries(journalId).then((resp) => {
+  //     this.setState({
+  //       entries: resp,
+  //     });
+  //   });
+
+  //   entryData.getAllEntryPrompts().then((response) => {
+  //     this.setState({
+  //       prompts: response,
+  //     });
+  //   });
+  // };
 
   getJournalInfo = (journalId) => {
     journalData.getSingleJournal(journalId).then((response) => {
@@ -57,13 +61,13 @@ export default class SingleJournal extends React.Component {
     return Promise.all([...entryArray]);
   });
 
-  getPrompts = () => {
-    entryData.getAllEntryPrompts().then((response) => {
-      this.setState({
-        prompts: response,
-      });
-    });
-  };
+  // getPrompts = () => {
+  //   entryData.getAllEntryPrompts().then((response) => {
+  //     this.setState({
+  //       prompts: response,
+  //     });
+  //   });
+  // };
 
   // promptButton = () => {
   //   const randomPrompt = this.state.prompts[
@@ -77,21 +81,21 @@ export default class SingleJournal extends React.Component {
   //   });
   // }
 
-  promptButton = () => {
-    const allPrompts = entryData
-      .getAllEntryPrompts()
-      .then((response) => Object.keys(response.data));
-    const arrlength = allPrompts.length;
-    const randomPrompt = this.state.prompts[
-      Math.floor(Math.random() * arrlength)
-    ];
-    entryData.getAllEntryPrompts(allPrompts[randomPrompt]).then((response) => {
-      this.setState({
-        randomPrompt: response,
-      });
-      console.warn('Look Here', response);
-    });
-  };
+  // getPrompt = () => {
+  //   const allPrompts = entryData
+  //     .getAllEntryPrompts()
+  //     .then((response) => Object.keys(response.data));
+  //   const arrlength = allPrompts.length;
+  //   const randomPrompt = this.state.prompts[
+  //     Math.floor(Math.random() * arrlength)
+  //   ];
+  //   entryData.getAllEntryPrompts(allPrompts[randomPrompt]).then((response) => {
+  //     this.setState({
+  //       randomPrompt: response,
+  //     });
+  //     return response;
+  //   });
+  // };
 
   removeEntry = (e) => {
     const removedEntry = this.state.entries.filter(
@@ -101,44 +105,46 @@ export default class SingleJournal extends React.Component {
       entries: removedEntry,
     });
     entryData.deleteEntry(e.target.id).then(() => {
-      this.loadData();
+      this.getEntries();
     });
     entryData.deleteJournalEntry(e.target.id);
   };
 
   render() {
-    const { entries, journal, prompts } = this.state;
-    const renderEntries = () => entries.map((entry) => (
-        <EntryTable
-          key={entry.entryId}
-          entry={entry}
-          removeEntry={this.removeEntry}
-          onUpdate={this.loadData}
-        />
-    ));
+    const { entries, journal } = this.state;
+
+    const renderEntries = () => (
+      entries.map((entry) => (
+        <EntryTable key={entry.entryId} entry={entry} removeEntry={this.removeEntry} />
+      ))
+    );
 
     return (
       <ModalBody>
         <AppModal title={'Create Entry'} buttonLabel={'Create Entry'}>
-          <EntryForm journal={journal} onUpdate={this.loadData} />
+          <EntryForm journal={journal} onUpdate={this.getJournalInfo} />
         </AppModal>
         <AppModal
           className='entry-prompts'
           title={'Prompt'}
           buttonLabel={'Get Prompt'}
         >
-          <ModalBody key={prompts.promptId}>
+          <ModalBody>
             <h2>Prompt Goes Here</h2>
           </ModalBody>
         </AppModal>
         <div>
-          <h1 className='table-title'>{journal.journalName}</h1>
+          <h1>{entries.journalName}</h1>
         </div>
         <div className='table-of-journal-entries'>
           <Table bordered>
             <tbody>
               <tr>
-                <td>{renderEntries()}</td>
+                <td>
+                  {entries.length > 0
+                    ? renderEntries()
+                    : 'There are no journal entries.'}
+                </td>
               </tr>
             </tbody>
           </Table>

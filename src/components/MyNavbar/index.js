@@ -43,8 +43,8 @@ class MyNavbar extends Component {
           <Collapse isOpen={isOpen} navbar>
             <Nav className='mr-auto' navbar>
               <NavItem>
-                <Link className='nav-link' to='journal-entries'>
-                  Create Entry
+                <Link className='nav-link' to='/journal-entries'>
+                  All Entries
                 </Link>
               </NavItem>
             </Nav>

@@ -37,3 +37,7 @@ This journaling app will be geared to people who want to journal to loved ones a
 - Bootstrap
 
 ## Build Status
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/202ed14b-e112-42b4-93ad-5ad435e28d5e/deploy-status)](https://app.netlify.com/sites/wendellp-front-end-capstone/deploys)
+
+[Live Site](https://wendellp-front-end-capstone.netlify.app/)

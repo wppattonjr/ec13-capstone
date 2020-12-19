@@ -1,5 +1,6 @@
 @import 'variables';
 @import './app';
+@import '_navbar';
 @import "~@fortawesome/fontawesome-free/css/all.min.css";
 @import '~bootstrap/dist/css/bootstrap.min.css';
 @import 'https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap';
@@ -13,7 +14,7 @@ body {
   margin: 0 auto;
   margin-top: 200px;
   text-align: center;
-  border: 5px solid rgb(3, 218, 198);;
+  border: 20px solid #BBDEFB;
   border-radius: 10px;
   background-color: white;
   padding: 100px 50px;

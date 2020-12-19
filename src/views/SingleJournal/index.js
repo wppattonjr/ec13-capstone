@@ -11,39 +11,40 @@ export default class SingleJournal extends React.Component {
     journal: {},
     entries: [],
     prompts: [],
+    randomPrompt: [],
   };
 
   componentDidMount() {
-    // this.loadData();
+    this.loadData();
 
-    const journalId = this.props.match.params.id;
+    // const journalId = this.props.match.params.id;
 
-    this.getJournalInfo(journalId);
+    // this.getJournalInfo(journalId);
 
-    // this.getPrompts();
+    // // this.getPrompts();
 
-    this.getEntries(journalId).then((resp) => this.setState({ entries: resp }));
+    // this.getEntries(journalId).then((resp) => this.setState({ entries: resp }));
   }
 
-  // loadData = () => {
-  //   const journalId = this.props.match.params.id;
-  //   journalData.getSingleJournal(journalId).then((response) => {
-  //     this.setState({
-  //       journal: response,
-  //     });
-  //   });
-  //   this.getEntries(journalId).then((resp) => {
-  //     this.setState({
-  //       entries: resp,
-  //     });
-  //   });
+  loadData = () => {
+    const journalId = this.props.match.params.id;
+    journalData.getSingleJournal(journalId).then((response) => {
+      this.setState({
+        journal: response,
+      });
+    });
+    this.getEntries(journalId).then((resp) => {
+      this.setState({
+        entries: resp,
+      });
+    });
 
-  //   entryData.getAllEntryPrompts().then((response) => {
-  //     this.setState({
-  //       prompts: response,
-  //     });
-  //   });
-  // };
+    entryData.getAllEntryPrompts().then((response) => {
+      this.setState({
+        prompts: response,
+      });
+    });
+  };
 
   getJournalInfo = (journalId) => {
     journalData.getSingleJournal(journalId).then((response) => {
@@ -61,25 +62,24 @@ export default class SingleJournal extends React.Component {
     return Promise.all([...entryArray]);
   });
 
-  // getPrompts = () => {
-  //   entryData.getAllEntryPrompts().then((response) => {
-  //     this.setState({
-  //       prompts: response,
-  //     });
-  //   });
-  // };
-
-  // promptButton = () => {
-  //   const randomPrompt = this.state.prompts[
-  //     Math.floor(Math.random() * this.state.prompts.length)
-  //   ];
-  //   entryData.getAllEntryPrompts(randomPrompt).then((response) => {
-  //     this.setState({
-  //       randomPrompt: response,
-  //     });
-  //     console.warn('Look Here', response);
-  //   });
-  // }
+  randomPrompt = () => {
+    console.warn(this.state.prompts.length);
+    const promptArray = [];
+    for (const obj of Object.entries(this.state.prompts)) {
+      promptArray.push(obj);
+    }
+    const randomNumber = Math.floor(Math.random() * Math.floor(promptArray.length));
+    console.warn(promptArray[randomNumber][1]);
+    this.setState({
+      rPrompt: promptArray[randomNumber][1].prompt,
+    });
+    // ([Math.floor(Math.random() * this.state.prompts.length)]).then((response) => {
+    //   this.setState({
+    //     randomPrompt: response,
+    //   });
+    //   console.warn('PROMPT', response);
+    // });
+  };
 
   // getPrompt = () => {
   //   const allPrompts = entryData
@@ -92,10 +92,18 @@ export default class SingleJournal extends React.Component {
   //   entryData.getAllEntryPrompts(allPrompts[randomPrompt]).then((response) => {
   //     this.setState({
   //       randomPrompt: response,
-  //     });
-  //     return response;
+  //     }); return response;
   //   });
   // };
+
+  // getPrompt = () => entryData.getAllEntryPrompts().then((response) => {
+  //   const promptArray = [];
+  //   console.warn('PROMPT', promptArray);
+  //   response.forEach((item) => {
+  //     promptArray.push(entryData.getSingleEntryPrompt(item.entryId));
+  //   });
+  //   return Promise.all([...promptArray]);
+  // });
 
   removeEntry = (e) => {
     const removedEntry = this.state.entries.filter(
@@ -105,7 +113,7 @@ export default class SingleJournal extends React.Component {
       entries: removedEntry,
     });
     entryData.deleteEntry(e.target.id).then(() => {
-      this.getEntries();
+      this.loadData();
     });
     entryData.deleteJournalEntry(e.target.id);
   };
@@ -115,24 +123,19 @@ export default class SingleJournal extends React.Component {
 
     const renderEntries = () => (
       entries.map((entry) => (
-        <EntryTable key={entry.entryId} entry={entry} removeEntry={this.removeEntry} />
+        <EntryTable key={entry.entryId} entry={entry} removeEntry={this.removeEntry} {...this.props} />
       ))
     );
 
     return (
       <ModalBody>
-        <AppModal title={'Create Entry'} buttonLabel={'Create Entry'}>
-          <EntryForm journal={journal} onUpdate={this.getJournalInfo} />
+        <AppModal className='mt-3 mb-3' title={'Create Entry'} buttonLabel={'Create Entry'}>
+          <EntryForm journal={journal} onUpdate={this.loadData} {...this.props} />
         </AppModal>
-        <AppModal
-          className='entry-prompts'
-          title={'Prompt'}
-          buttonLabel={'Get Prompt'}
-        >
-          <ModalBody>
-            <h2>Prompt Goes Here</h2>
-          </ModalBody>
-        </AppModal>
+        <div className=''>
+          <button className='btn-lg mt-3 mb-3' onClick={ () => { this.randomPrompt(); } }>Prompt Me!</button>
+              {this.state.rPrompt}
+        </div>
         <div>
           <h1>{entries.journalName}</h1>
         </div>
@@ -141,7 +144,7 @@ export default class SingleJournal extends React.Component {
             <tbody>
               <tr>
                 <td>
-                  {entries.length > 0
+                  {entries.length
                     ? renderEntries()
                     : 'There are no journal entries.'}
                 </td>

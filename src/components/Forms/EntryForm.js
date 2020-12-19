@@ -67,10 +67,8 @@ export default class EntryForm extends Component {
             journalId: this.state.journalId,
             userId: this.state.userId,
           };
-          journalData.createJournalEntry(entryInJournal);
-          this.props.onUpdate();
-        })
-        .then(() => {
+          return entryInJournal;
+        }).then((entryInJournal) => journalData.createJournalEntry(entryInJournal)).then((resp) => {
           this.props.onUpdate();
           this.setState({ success: true });
         });
@@ -83,14 +81,10 @@ export default class EntryForm extends Component {
         modified: moment().format('MMMM Do YYYY, h:mm a'),
       };
       entryData.updateEntry(thisJournalEntry).then(() => {
-        this.props.onUpdate();
         this.setState({ success: true });
-      },
-      entryData.updateJournalEntry(thisJournalEntry),
-      this.props.onUpdate());
-      this.setState({ success: true });
+      });
     }
-  };
+  }
 
   getJournals = (uid) => journalData.getAllUserJournals(uid).then((response) => response);
 
@@ -136,7 +130,7 @@ export default class EntryForm extends Component {
           <option value=''>Add Entry to a Journal</option>
           {Object.keys(journals).length && populateDropdown()}
         </select>
-        <button className='btn form-button form-button-text mt-1'>
+        <button onClick={this.handleSubmit} className='btn form-button form-button-text mt-1'>
           Submit
         </button>
       </form>

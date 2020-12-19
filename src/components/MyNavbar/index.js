@@ -44,7 +44,6 @@ class MyNavbar extends Component {
             <Nav className='mr-auto' navbar>
               <NavItem>
                 <Link className='nav-link' to='/journal-entries'>
-                  All Entries
                 </Link>
               </NavItem>
             </Nav>

@@ -109,7 +109,7 @@ export default class EntryForm extends Component {
     return (
       <div>
       { success && (<div className='alert alert-success' role='alert'>Your Journal Entry Has Been Created/Updated!</div>)}
-      <form onSubmit={this.handleSubmit} onChange={this.handleChange} className='add-entry-form'>
+      <form onSubmit={this.handleSubmit} onChange={this.loadData} className='add-entry-form'>
         <textarea
           type='text'
           name='entry'

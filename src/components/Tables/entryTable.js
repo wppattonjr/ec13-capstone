@@ -19,8 +19,14 @@ export default class EntryTable extends Component {
     this.props.toggle();
   }
 
+  componentDidUpdate(prevState) {
+    if (this.state.entry !== prevState.entry) {
+      this.fetchData(this.state.entry);
+    }
+  }
+
   render() {
-    const { entry, onUpdate } = this.state;
+    const { entry } = this.state;
     return (
     <Table>
           <thead>
@@ -36,7 +42,7 @@ export default class EntryTable extends Component {
                 <td>{entry.modified}</td>
                 <td>{entry.entry}</td>
                 <td>
-                  <AppModal title={'Update Entry'} buttonLabel={'Update Entry'}><EntryForm entry={entry} onUpdate={onUpdate} /></AppModal>
+                  <AppModal title={'Update Entry'} buttonLabel={'Update Entry'}><EntryForm entry={entry} onUpdate={this.componentDidUpdate} {...this.props}/></AppModal>
                   {/* <AppModal className='btn btn-lg' title={'Update Entry'} buttonLabel={'Update Entry'}>
                   { Object.keys(entry).length && <EntryForm entry={entry} onUpdate={onUpdate} />}
                   </AppModal> */}

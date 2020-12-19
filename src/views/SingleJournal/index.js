@@ -11,7 +11,6 @@ export default class SingleJournal extends React.Component {
     journal: {},
     entries: [],
     prompts: [],
-    randomPrompt: [],
   };
 
   componentDidMount() {
@@ -63,7 +62,6 @@ export default class SingleJournal extends React.Component {
   });
 
   randomPrompt = () => {
-    console.warn(this.state.prompts.length);
     const promptArray = [];
     for (const obj of Object.entries(this.state.prompts)) {
       promptArray.push(obj);
@@ -129,11 +127,11 @@ export default class SingleJournal extends React.Component {
 
     return (
       <ModalBody>
-        <AppModal className='mt-3 mb-3' title={'Create Entry'} buttonLabel={'Create Entry'}>
+        <AppModal className='btn-lg mt-3 mb-3' title={'Create Entry'} buttonLabel={'Create Entry'}>
           <EntryForm journal={journal} onUpdate={this.loadData} {...this.props} />
         </AppModal>
         <div className=''>
-          <button className='btn-lg mt-3 mb-3' onClick={ () => { this.randomPrompt(); } }>Prompt Me!</button>
+          <button className='btn-lg mt-3 mb-3 prompt-me' onClick={ () => { this.randomPrompt(); } }>Prompt Me!</button>
               {this.state.rPrompt}
         </div>
         <div>

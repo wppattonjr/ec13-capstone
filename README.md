@@ -1,3 +1,7 @@
+![screencapture-wendellp-front-end-capstone-netlify-app-2020-12-18-23_02_49](https://user-images.githubusercontent.com/63669713/102681222-4dffd600-4185-11eb-947a-dcf6e2536814.png)
+
+
+
 # I Need to Write
 
 This project is for my Evening Cohort (EC13) capstone. It is a journaling app but will a little bit of a twist. It is meant for those who are already avid journalists as well as those who may be new to journaling and want to make it a habit.

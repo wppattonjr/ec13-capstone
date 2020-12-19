@@ -35,7 +35,7 @@ class MyNavbar extends Component {
 
     return (
       <div>
-        <Navbar color='dark' dark expand='md' className='justify-content-between'>
+        <Navbar className='color-nav' dark expand='md'>
           <Link className='navbar-brand' to='/journals'>
             Journals
           </Link>

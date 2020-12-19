@@ -46,10 +46,10 @@ export default class Journals extends React.Component {
     ));
     return (
       <>
-        <AppModal title={'Create Journal'} buttonLabel={'Create Journal'}>
+        <AppModal className='mt-5 mb-5' title={'Create Journal'} buttonLabel={'Create Journal'}>
           <JournalForm onUpdate={this.getJournals} />
         </AppModal>
-        <div className='d-flex justify-content-center m5'>
+        <div className='d-flex justify-content-center'>
         {showJournals()}
       </div>
     </>

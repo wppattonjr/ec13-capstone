@@ -1,6 +1,6 @@
 ![screencapture-wendellp-front-end-capstone-netlify-app-2020-12-18-23_02_49](https://user-images.githubusercontent.com/63669713/102681222-4dffd600-4185-11eb-947a-dcf6e2536814.png)
 
-
+![screencapture-wendellp-front-end-capstone-netlify-app-2020-12-18-23_02_49](https://user-images.githubusercontent.com/63669713/102681231-725bb280-4185-11eb-8081-e1c0226abce6.png)
 
 # I Need to Write
 
